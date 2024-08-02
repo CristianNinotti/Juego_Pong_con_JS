@@ -18,26 +18,8 @@ function preload() {
   imagenRaquetaComputadora = loadImage('assets/barra2.png');
   imagenPelota = loadImage('assets/bola.png');
   sonidoColision = loadSound('assets/bounce.wav');
-  sonidoGol = narrarMarcador(puntajeJugador, puntajeComputadora);
+  sonidoGol = loadSound('assets/gol.wav');
 }
-
-function narrarMarcador(puntajeJugador, puntajeComputadora) {
-  // Crear un objeto SpeechSynthesisUtterance
-  const mensaje = new SpeechSynthesisUtterance();
-  
-  // Establecer el texto que se va a narrar
-  mensaje.text = ` ${puntajeJugador} a ${puntajeComputadora}.`;
-  
-  // Opcional: Configurar la voz y la velocidad (según el navegador y sus opciones)
-  mensaje.voice = speechSynthesis.getVoices().find(voice => voice.name === 'Google US English') // Ajusta la voz según disponibilidad
-  mensaje.rate = 1; // Velocidad de la narración
-
-  // Reproducir la narración
-  window.speechSynthesis.speak(mensaje);
-}
-
-
-// Comentario
 
 function setup() {
   createCanvas(windowWidth, windowHeight); // Ajusta el tamaño del canvas al tamaño de la ventana
@@ -182,13 +164,13 @@ class Pelota {
     if (this.x < 0) {
       puntajeComputadora++;
       sonidoGol.play();
-      narrarMarcador(puntajeJugador, puntajeComputadora);
       this.reiniciar(true);
+      narrarMarcador(); // Mover aquí para narrar después de reiniciar
     } else if (this.x > width) {
       puntajeJugador++;
       sonidoGol.play();
-      narrarMarcador(puntajeJugador, puntajeComputadora);
       this.reiniciar(false);
+      narrarMarcador(); // Mover aquí para narrar después de reiniciar
     }
   }
 
@@ -205,4 +187,19 @@ class Pelota {
     this.velocidadY = velocidadPelotaY * (random() > 0.5 ? 1 : -1);
     this.angulo = 0; // Reiniciar la rotación de la pelota
   }
+}
+
+function narrarMarcador() {
+  // Crear un objeto SpeechSynthesisUtterance
+  const mensaje = new SpeechSynthesisUtterance();
+  
+  // Establecer el texto que se va a narrar
+  mensaje.text = ` ${puntajeJugador} a ${puntajeComputadora}.`;
+  
+  // Opcional: Configurar la voz y la velocidad (según el navegador y sus opciones)
+  mensaje.voice = speechSynthesis.getVoices().find(voice => voice.name === 'Google Spanish'); // Ajusta la voz según disponibilidad
+  mensaje.rate = 1; // Velocidad de la narración
+
+  // Reproducir la narración
+  window.speechSynthesis.speak(mensaje);
 }
