@@ -197,7 +197,7 @@ function narrarMarcador() {
   mensaje.text = ` ${puntajeJugador} a ${puntajeComputadora}.`;
   
   // Opcional: Configurar la voz y la velocidad (según el navegador y sus opciones)
-  mensaje.voice = speechSynthesis.getVoices().find(voice => voice.name === 'Google Spanish'); // Ajusta la voz según disponibilidad
+  mensaje.voice = speechSynthesis.getVoices().find(voice => voice.name === 'Google US English'); // Ajusta la voz según disponibilidad
   mensaje.rate = 1; // Velocidad de la narración
 
   // Reproducir la narración
